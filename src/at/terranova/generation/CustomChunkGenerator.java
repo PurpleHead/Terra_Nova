@@ -1,11 +1,17 @@
 package at.terranova.generation;
 
+import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class CustomChunkGenerator extends ChunkGenerator {
@@ -60,6 +66,11 @@ public class CustomChunkGenerator extends ChunkGenerator {
             chunkData.setBlock(x, i, z, Material.WATER);
         }
         return chunkData;
+    }
+
+    @Override
+    public List<BlockPopulator> getDefaultPopulators(World world) {
+        return Arrays.asList(new TreePopulator());
     }
 
     @Override
