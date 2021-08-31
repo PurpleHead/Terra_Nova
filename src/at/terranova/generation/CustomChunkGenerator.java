@@ -20,7 +20,10 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int z = 0; z < CHUNK_SIZE; z++) {
-                double height = provider.getHeight(x, z, chunkX, chunkZ, CHUNK_SIZE, 0.9, 1.2);
+                double height = provider.getHeight(x, z, chunkX, chunkZ, CHUNK_SIZE, 0.9, 0.9);
+                double height1 = provider.getHeight(x, z, chunkX, chunkZ, CHUNK_SIZE, 1.2, 0.9);
+
+                height = Math.abs(height + height1 * 0.4);
 
                 // Generate ocean if necessary
                 if (height < SEA_MAX_LEVEL) {
@@ -35,7 +38,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
                 for (int i = (int) height - dirtDepth; i > 0; i--) {
                     chunkData.setBlock(x, i, z, Material.STONE);
                 }
-                if (height < SEA_MAX_LEVEL + 4) {
+                if (height < SEA_MAX_LEVEL + 3) {
                     for (int i = (int) height; i > (int) height - (3 + random.nextInt(5)); i--) {
                         chunkData.setBlock(x, i, z, Material.SAND);
                     }

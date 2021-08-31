@@ -13,6 +13,6 @@ public class SimplexNoiseProvider implements NoiseProvider {
 
     @Override
     public double getHeight(int x, int z, int chunkX, int chunkZ, int chunkSize, double frequency, double amplitude) {
-        return generator.noise(chunkX*chunkSize+x, chunkZ*chunkSize+z, frequency, amplitude) * 20 + 80;
+        return generator.noise(chunkX*chunkSize+x, chunkZ*chunkSize+z, frequency, amplitude) * 15 + 50;
     }
 }
