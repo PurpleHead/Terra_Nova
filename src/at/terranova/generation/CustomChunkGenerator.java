@@ -1,9 +1,10 @@
 package at.terranova.generation;
 
+import at.terranova.heightprovider.NoiseProvider;
+import at.terranova.heightprovider.SimplexNoiseProvider;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
-import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import java.util.Random;
 
@@ -14,13 +15,11 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
     @Override
     public void generateNoise(WorldInfo worldInfo, Random random, int chunkX, int chunkZ, ChunkData chunkData) {
-        SimplexOctaveGenerator generator = new SimplexOctaveGenerator(worldInfo.getSeed(), 8);
-
-        generator.setScale(0.005);
+        NoiseProvider provider = new SimplexNoiseProvider(worldInfo.getSeed(), 8);
 
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int z = 0; z < CHUNK_SIZE; z++) {
-                double height = generator.noise(chunkX*CHUNK_SIZE+x, chunkZ*CHUNK_SIZE+z, 0.9, 1.2) * 20 + 80;
+                double height = provider.getHeight(x, z, chunkX, chunkZ, CHUNK_SIZE, 0.9, 1.2);
                 if (height < SEA_LEVEL) {
                     for (int i = (int) height + 1; i < SEA_LEVEL; i++) {
                         chunkData.setBlock(x, i, z, Material.WATER);
