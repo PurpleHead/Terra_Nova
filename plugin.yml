@@ -1,0 +1,6 @@
+name: Terra_Nova
+version: 1.0
+author: [USER_NOT_FOUND]
+main: at.terranova.TerraNova
+api-version: 1.17
+load: startup
