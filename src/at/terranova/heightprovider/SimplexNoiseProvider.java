@@ -8,17 +8,23 @@ import at.terranova.Pair;
 import at.terranova.generation.CustomChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class SimplexNoiseProvider implements NoiseProvider {
 
-    private SimplexOctaveGenerator generator;
-
+    private List<SimplexOctaveGenerator> generators = new LinkedList<>();
     private List<Pair<Double, Double>> freqAmp;
 
-    public SimplexNoiseProvider (long seed, int octaves, List<Pair<Double, Double>> freqAmp) {
-        generator = new SimplexOctaveGenerator(seed, octaves);
-        generator.setScale(0.005);
+    private final int SEED_AMOUNT;
+
+    public SimplexNoiseProvider (long[] seeds, int octaves, List<Pair<Double, Double>> freqAmp) {
+        this.SEED_AMOUNT = seeds.length;
+        for (long s : seeds) {
+            SimplexOctaveGenerator g = new SimplexOctaveGenerator(s, octaves);
+            g.setScale(0.005);
+            generators.add(g);
+        }
         this.freqAmp = freqAmp;
     }
 
@@ -29,9 +35,11 @@ public class SimplexNoiseProvider implements NoiseProvider {
             double frequency = p.getT();
             double amplitude = p.getE();
 
-            noise += generator.noise(chunkX* CustomChunkGenerator.CHUNK_SIZE +x, chunkZ*CustomChunkGenerator.CHUNK_SIZE+z, frequency, amplitude) * 15 + 80;
+            for(SimplexOctaveGenerator g : generators) {
+                noise += g.noise(chunkX* CustomChunkGenerator.CHUNK_SIZE +x, chunkZ*CustomChunkGenerator.CHUNK_SIZE+z, frequency, amplitude) * 15;
+            }
         }
-        return Math.abs(noise * 0.4);
+        return Math.abs((noise + (50)) * 0.3);
     }
 
     @Override
@@ -39,5 +47,9 @@ public class SimplexNoiseProvider implements NoiseProvider {
         int i = x % CustomChunkGenerator.CHUNK_SIZE;
         int j = z % CustomChunkGenerator.CHUNK_SIZE;
         return getHeight(i, j, (x - i) / CustomChunkGenerator.CHUNK_SIZE, (z - j) / CustomChunkGenerator.CHUNK_SIZE);
+    }
+
+    public int getSeedAmount() {
+        return SEED_AMOUNT;
     }
 }
