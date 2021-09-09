@@ -5,6 +5,7 @@ import at.terranova.generation.populators.CustomBiomeProvider;
 import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -23,15 +24,17 @@ public class CustomChunkGenerator extends ChunkGenerator {
     public static final int SEA_MAX_LEVEL = 63;
     public static final int SEA_MIN_LEVEL = 25;
 
-    private static final int octaves = 10;
-    private static final List freqAmp = Arrays.asList(new Pair<>(0.9, 0.9), new Pair<>(1.2, 0.9));
+    private static final int SEED_AMOUNT = 2;
+    private static final int SEED_DIFF = 100;
+    private static final int OCTAVES = 10;
+    private static final List FREQ_AMP = Arrays.asList(new Pair<>(0.7, 1.25), new Pair<>(0.6, 1.25), new Pair<>(0.75, 1.25));
 
     public CustomChunkGenerator() {
     }
 
     @Override
     public void generateNoise(WorldInfo worldInfo, Random random, int chunkX, int chunkZ, ChunkData chunkData) {
-        NoiseProvider provider = new SimplexNoiseProvider(worldInfo.getSeed(), octaves, freqAmp);
+        NoiseProvider provider = new SimplexNoiseProvider(getSeeds(worldInfo.getSeed()), OCTAVES, FREQ_AMP);
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int z = 0; z < CHUNK_SIZE; z++) {
                 double height = provider.getHeight(x, z, chunkX, chunkZ);
@@ -49,7 +52,8 @@ public class CustomChunkGenerator extends ChunkGenerator {
                 for (int i = (int) height - dirtDepth; i > 0; i--) {
                     chunkData.setBlock(x, i, z, Material.STONE);
                 }
-                if (height < SEA_MAX_LEVEL + 2) {
+                // TODO generate sand next to ocean
+                if (height < SEA_MAX_LEVEL) {
                     for (int i = (int) height; i > (int) height - 2; i--) {
                         chunkData.setBlock(x, i, z, Material.SAND);
                     }
@@ -58,6 +62,17 @@ public class CustomChunkGenerator extends ChunkGenerator {
                 }
             }
         }
+    }
+
+    private long[] getSeeds (long seed) {
+        long[] seeds = new long[SEED_AMOUNT];
+        for (int i = 0; i < SEED_AMOUNT; i++) {
+            if (i == 0)
+                seeds[i] = seed - SEED_DIFF;
+            else
+                seeds[i] = seeds[i - 1] - SEED_DIFF;
+        }
+        return seeds;
     }
 
     private ChunkData generateSea (double height, int x, int z, ChunkData chunkData) {
@@ -75,12 +90,12 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
     @Override
     public BiomeProvider getDefaultBiomeProvider(WorldInfo worldInfo) {
-        return new CustomBiomeProvider(new SimplexNoiseProvider(worldInfo.getSeed(), octaves, freqAmp));
+        return new CustomBiomeProvider(new SimplexNoiseProvider(getSeeds(worldInfo.getSeed()), OCTAVES, FREQ_AMP));
     }
 
     @Override
     public List<BlockPopulator> getDefaultPopulators(World world) {
-        return Arrays.asList(/*new TreePopulator(new SimplexNoiseProvider(world.getSeed(), octaves, freqAmp))*/);
+        return Arrays.asList(new TreePopulator(new SimplexNoiseProvider(getSeeds(world.getSeed()), OCTAVES, FREQ_AMP)));
     }
 
     @Override
