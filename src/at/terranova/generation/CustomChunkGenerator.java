@@ -12,7 +12,6 @@ import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BiomeProvider;
@@ -47,12 +46,6 @@ public class CustomChunkGenerator extends ChunkGenerator {
             for (int z = 0; z < CHUNK_SIZE; z++) {
                 double height = provider.getHeight(x, z, chunkX, chunkZ);
                 CustomBiome customBiome = customBiomeHandler.getCustomBiome(chunkData.getBiome(x, (int) height, z));
-
-                // Generate ocean if necessary
-                if (height < SEA_MAX_LEVEL) {
-                    chunkData = generateSea(height, x, z, chunkData, random);
-                }
-
                 customBiome.generate(provider, worldInfo, random, x, height, z, chunkData);
 
                 /*// Generate solid floor
@@ -85,27 +78,6 @@ public class CustomChunkGenerator extends ChunkGenerator {
                 seeds[i] = seeds[i - 1] - SEED_DIFF;
         }
         return seeds;
-    }
-
-    private ChunkData generateSea (double height, int x, int z, ChunkData chunkData, Random random) {
-        for (int i = 0; i < height; i++) {
-            int sandDepth = 3 + random.nextInt(10);
-
-            if(i > height - (sandDepth / 2)) {
-                chunkData.setBlock(x, i, z, Material.SAND);
-            } else if (i > height - sandDepth) {
-                chunkData.setBlock(x, i, z, Material.SANDSTONE);
-            } else {
-                chunkData.setBlock(x, i, z, Material.STONE);
-            }
-        }
-        for (;height < SEA_MIN_LEVEL; height++) {
-            chunkData.setBlock(x, (int) height, z, Material.SAND);
-        }
-        for (int i = (int) height; i < SEA_MAX_LEVEL; i++) {
-            chunkData.setBlock(x, i, z, Material.WATER);
-        }
-        return chunkData;
     }
 
     @Override

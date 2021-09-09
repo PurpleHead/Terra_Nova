@@ -5,6 +5,7 @@
 package at.terranova.generation.biomes;
 
 import at.terranova.heightprovider.NoiseProvider;
+import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
@@ -45,7 +46,9 @@ class VoidBiome implements CustomBiome {
 
     @Override
     public void generate(NoiseProvider provider, WorldInfo worldInfo, Random random, int x, double height, int z, ChunkGenerator.ChunkData chunkData) {
-
+        for (int i = (int) height; i > 0; i--) {
+            chunkData.setBlock(x, i, z, Material.RED_TERRACOTTA);
+        }
     }
 
 }
