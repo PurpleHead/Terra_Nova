@@ -4,28 +4,28 @@
  */
 package at.terranova;
 
-public class Pair<T, E> {
-    private T t;
-    private E e;
+public class Pair<A, B> {
+    private A a;
+    private B b;
 
-    public Pair(T t, E e) {
-        this.t = t;
-        this.e = e;
+    public Pair(A a, B b) {
+        this.a = a;
+        this.b = b;
     }
 
-    public T getT() {
-        return t;
+    public A getA() {
+        return a;
     }
 
-    public void setT(T t) {
-        this.t = t;
+    public void setA(A a) {
+        this.a = a;
     }
 
-    public E getE() {
-        return e;
+    public B getB() {
+        return b;
     }
 
-    public void setE(E e) {
-        this.e = e;
+    public void setB(B b) {
+        this.b = b;
     }
 }

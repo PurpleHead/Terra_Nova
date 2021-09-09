@@ -32,8 +32,8 @@ public class SimplexNoiseProvider implements NoiseProvider {
     public double getHeight(int x, int z, int chunkX, int chunkZ) {
         double noise = 0;
         for (Pair<Double, Double> p : this.freqAmp) {
-            double frequency = p.getT();
-            double amplitude = p.getE();
+            double frequency = p.getA();
+            double amplitude = p.getB();
 
             for(SimplexOctaveGenerator g : generators) {
                 noise += g.noise(chunkX* CustomChunkGenerator.CHUNK_SIZE +x, chunkZ*CustomChunkGenerator.CHUNK_SIZE+z, frequency, amplitude) * 15;

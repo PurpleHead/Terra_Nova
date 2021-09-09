@@ -5,6 +5,8 @@
 package at.terranova.generation;
 
 import at.terranova.Pair;
+import at.terranova.generation.biomes.CustomBiome;
+import at.terranova.generation.biomes.CustomBiomeHandler;
 import at.terranova.generation.populators.CustomBiomeProvider;
 import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
@@ -33,6 +35,8 @@ public class CustomChunkGenerator extends ChunkGenerator {
     private static final int OCTAVES = 10;
     private static final List FREQ_AMP = Arrays.asList(new Pair<>(0.7, 1.25), new Pair<>(0.6, 1.25), new Pair<>(0.75, 1.25));
 
+    private CustomBiomeHandler customBiomeHandler = CustomBiomeHandler.getInstance();
+
     public CustomChunkGenerator() {
     }
 
@@ -42,13 +46,16 @@ public class CustomChunkGenerator extends ChunkGenerator {
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int z = 0; z < CHUNK_SIZE; z++) {
                 double height = provider.getHeight(x, z, chunkX, chunkZ);
+                CustomBiome customBiome = customBiomeHandler.getCustomBiome(chunkData.getBiome(x, (int) height, z));
 
                 // Generate ocean if necessary
                 if (height < SEA_MAX_LEVEL) {
-                    chunkData = generateSea(height, x, z, chunkData);
+                    chunkData = generateSea(height, x, z, chunkData, random);
                 }
 
-                // Generate solid floor
+                customBiome.generate(provider, worldInfo, random, x, height, z, chunkData);
+
+                /*// Generate solid floor
                 int dirtDepth = 2 + random.nextInt(10);
                 for(int i = (int) height - 1; i > height - dirtDepth; i--) {
                     chunkData.setBlock(x, i, z, Material.DIRT);
@@ -63,7 +70,8 @@ public class CustomChunkGenerator extends ChunkGenerator {
                     }
                 } else {
                     chunkData.setBlock(x, (int) height, z, Material.GRASS_BLOCK);
-                }
+                }*/
+
             }
         }
     }
@@ -79,14 +87,22 @@ public class CustomChunkGenerator extends ChunkGenerator {
         return seeds;
     }
 
-    private ChunkData generateSea (double height, int x, int z, ChunkData chunkData) {
-        if (height < SEA_MIN_LEVEL) {
-            height++;
-            for (;height < SEA_MIN_LEVEL; height++) {
-                chunkData.setBlock(x, (int) height, z, Material.SAND);
+    private ChunkData generateSea (double height, int x, int z, ChunkData chunkData, Random random) {
+        for (int i = 0; i < height; i++) {
+            int sandDepth = 3 + random.nextInt(10);
+
+            if(i > height - (sandDepth / 2)) {
+                chunkData.setBlock(x, i, z, Material.SAND);
+            } else if (i > height - sandDepth) {
+                chunkData.setBlock(x, i, z, Material.SANDSTONE);
+            } else {
+                chunkData.setBlock(x, i, z, Material.STONE);
             }
         }
-        for (int i = (int) height + 1; i < SEA_MAX_LEVEL; i++) {
+        for (;height < SEA_MIN_LEVEL; height++) {
+            chunkData.setBlock(x, (int) height, z, Material.SAND);
+        }
+        for (int i = (int) height; i < SEA_MAX_LEVEL; i++) {
             chunkData.setBlock(x, i, z, Material.WATER);
         }
         return chunkData;

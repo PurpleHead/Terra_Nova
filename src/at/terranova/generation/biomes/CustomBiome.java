@@ -4,8 +4,14 @@
  */
 package at.terranova.generation.biomes;
 
+import at.terranova.heightprovider.NoiseProvider;
+import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.generator.WorldInfo;
+
+import java.util.Random;
+
 public interface CustomBiome {
 
-    void generate();
+    void generate(NoiseProvider provider, WorldInfo worldInfo, Random random, int x, double height, int z, ChunkGenerator.ChunkData chunkData);
 
 }
