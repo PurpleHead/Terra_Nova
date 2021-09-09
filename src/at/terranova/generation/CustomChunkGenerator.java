@@ -1,3 +1,7 @@
+/*
+ * author: [USER_NOT_FOUND]
+ * https://github.com/PurpleHead
+ */
 package at.terranova.generation;
 
 import at.terranova.Pair;

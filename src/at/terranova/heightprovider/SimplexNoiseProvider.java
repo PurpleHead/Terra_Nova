@@ -1,3 +1,7 @@
+/*
+ * author: [USER_NOT_FOUND]
+ * https://github.com/PurpleHead
+ */
 package at.terranova.heightprovider;
 
 import at.terranova.Pair;
