@@ -2,11 +2,15 @@ package at.terranova.generation;
 
 import at.terranova.Pair;
 import at.terranova.generation.populators.CustomBiomeProvider;
+import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.generator.BiomeProvider;
+import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
 
@@ -89,10 +93,10 @@ public class CustomChunkGenerator extends ChunkGenerator {
         return new CustomBiomeProvider(new SimplexNoiseProvider(getSeeds(worldInfo.getSeed()), OCTAVES, FREQ_AMP));
     }
 
-    /*@Override
+    @Override
     public List<BlockPopulator> getDefaultPopulators(World world) {
         return Arrays.asList(new TreePopulator(new SimplexNoiseProvider(getSeeds(world.getSeed()), OCTAVES, FREQ_AMP)));
-    }*/
+    }
 
     @Override
     public boolean shouldGenerateCaves() {
