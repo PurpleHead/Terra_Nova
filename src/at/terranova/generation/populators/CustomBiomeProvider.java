@@ -30,7 +30,7 @@ public class CustomBiomeProvider extends BiomeProvider {
     public Biome getBiome(WorldInfo worldInfo, int x, int y, int z) {
         int divider = BIOME_HEIGHT / this.biomes.size();
 
-        if ((provider.getHeight(x, z) <= CustomChunkGenerator.SEA_MAX_LEVEL)) {
+        if ((provider.getHeight(x, z) < CustomChunkGenerator.SEA_MAX_LEVEL) || y < CustomChunkGenerator.SEA_MAX_LEVEL) {
             return Biome.OCEAN;
         }
         int index = Math.abs(z) >= BIOME_HEIGHT ? biomes.size() - 1 : Math.abs(z / divider);

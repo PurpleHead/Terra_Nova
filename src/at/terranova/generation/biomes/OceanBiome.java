@@ -30,7 +30,7 @@ public class OceanBiome implements CustomBiome {
         for (;height < CustomChunkGenerator.SEA_MIN_LEVEL; height++) {
             chunkData.setBlock(x, (int) height, z, Material.SAND);
         }
-        for (int i = (int) height; i < CustomChunkGenerator.SEA_MAX_LEVEL; i++) {
+        for (int i = (int) height; i <= CustomChunkGenerator.SEA_MAX_LEVEL + 1; i++) {
             chunkData.setBlock(x, i, z, Material.WATER);
         }
     }

@@ -12,8 +12,8 @@ import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
 
-import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.generator.BiomeProvider;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -46,6 +46,11 @@ public class CustomChunkGenerator extends ChunkGenerator {
             for (int z = 0; z < CHUNK_SIZE; z++) {
                 double height = provider.getHeight(x, z, chunkX, chunkZ);
                 CustomBiome customBiome = customBiomeHandler.getCustomBiome(chunkData.getBiome(x, (int) height, z));
+
+                if(height < SEA_MAX_LEVEL) {
+                    customBiome = customBiomeHandler.getCustomBiome(Biome.OCEAN);
+                }
+
                 customBiome.generate(provider, worldInfo, random, x, height, z, chunkData);
 
                 /*// Generate solid floor
@@ -92,7 +97,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
     @Override
     public boolean shouldGenerateCaves() {
-        return true;
+        return false;
     }
 
     @Override
