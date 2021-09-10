@@ -39,7 +39,7 @@ public class SimplexNoiseProvider implements NoiseProvider {
                 noise += g.noise(chunkX* CustomChunkGenerator.CHUNK_SIZE +x, chunkZ*CustomChunkGenerator.CHUNK_SIZE+z, frequency, amplitude) * 15;
             }
         }
-        return Math.abs((noise + (60)) * 0.2);
+        return Math.abs(noise * 0.15) + 40;
     }
 
     @Override

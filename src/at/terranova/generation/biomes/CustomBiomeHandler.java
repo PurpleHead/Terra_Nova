@@ -44,8 +44,8 @@ public class CustomBiomeHandler {
 class VoidBiome implements CustomBiome {
 
     @Override
-    public void generate(NoiseProvider provider, WorldInfo worldInfo, Random random, int x, double height, int z, ChunkGenerator.ChunkData chunkData) {
-        for (int i = (int) height; i > 0; i--) {
+    public void generate(NoiseProvider provider, WorldInfo worldInfo, Random random, int x, int height, int z, ChunkGenerator.ChunkData chunkData) {
+        for (int i = height; i > 0; i--) {
             chunkData.setBlock(x, i, z, Material.RED_TERRACOTTA);
         }
     }

@@ -14,7 +14,7 @@ import java.util.Random;
 
 public interface CustomBiome {
 
-    void generate(NoiseProvider provider, WorldInfo worldInfo, Random random, int x, double height, int z, ChunkGenerator.ChunkData chunkData);
+    void generate(NoiseProvider provider, WorldInfo worldInfo, Random random, int x, int height, int z, ChunkGenerator.ChunkData chunkData);
     List<TreeType> getTreeTypes();
 
 }

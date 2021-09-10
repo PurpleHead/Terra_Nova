@@ -18,7 +18,7 @@ import java.util.Random;
 public class OceanBiome implements CustomBiome {
 
     @Override
-    public void generate(NoiseProvider provider, WorldInfo worldInfo, Random random, int x, double height, int z, ChunkGenerator.ChunkData chunkData) {
+    public void generate(NoiseProvider provider, WorldInfo worldInfo, Random random, int x, int height, int z, ChunkGenerator.ChunkData chunkData) {
         for (int i = 0; i < height; i++) {
             int sandDepth = 3 + random.nextInt(10);
 
@@ -31,9 +31,9 @@ public class OceanBiome implements CustomBiome {
             }
         }
         for (;height < CustomChunkGenerator.SEA_MIN_LEVEL; height++) {
-            chunkData.setBlock(x, (int) height, z, Material.SAND);
+            chunkData.setBlock(x, height, z, Material.SAND);
         }
-        for (int i = (int) height; i <= CustomChunkGenerator.SEA_MAX_LEVEL + 1; i++) {
+        for (int i = height; i <= CustomChunkGenerator.SEA_MAX_LEVEL + 1; i++) {
             chunkData.setBlock(x, i, z, Material.WATER);
         }
     }

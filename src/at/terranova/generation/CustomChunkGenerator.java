@@ -44,8 +44,8 @@ public class CustomChunkGenerator extends ChunkGenerator {
         NoiseProvider provider = new SimplexNoiseProvider(getSeeds(worldInfo.getSeed()), OCTAVES, FREQ_AMP);
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int z = 0; z < CHUNK_SIZE; z++) {
-                double height = provider.getHeight(x, z, chunkX, chunkZ);
-                CustomBiome customBiome = customBiomeHandler.getCustomBiome(chunkData.getBiome(x, (int) height, z));
+                int height = (int) provider.getHeight(x, z, chunkX, chunkZ);
+                CustomBiome customBiome = customBiomeHandler.getCustomBiome(chunkData.getBiome(x, height, z));
 
                 if(height < SEA_MAX_LEVEL) {
                     customBiome = customBiomeHandler.getCustomBiome(Biome.OCEAN);

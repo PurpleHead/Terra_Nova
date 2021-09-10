@@ -5,10 +5,7 @@
 package at.terranova;
 
 import at.terranova.generation.CustomChunkGenerator;
-import at.terranova.generation.biomes.CustomBiomeHandler;
-import at.terranova.generation.biomes.DesertBiome;
-import at.terranova.generation.biomes.OceanBiome;
-import at.terranova.generation.biomes.SavannaBiome;
+import at.terranova.generation.biomes.*;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator;
@@ -27,6 +24,8 @@ public class TerraNova extends JavaPlugin {
         handler.registerCustomBiome(Biome.DESERT, new DesertBiome());
         handler.registerCustomBiome(Biome.SAVANNA, new SavannaBiome());
         handler.registerCustomBiome(Biome.OCEAN, new OceanBiome());
+        handler.registerCustomBiome(Biome.FOREST, new ForestBiome());
+        handler.registerCustomBiome(Biome.TAIGA, new TaigaBiome());
     }
 
     @Override
