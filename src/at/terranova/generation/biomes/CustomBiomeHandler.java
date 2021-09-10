@@ -6,13 +6,12 @@ package at.terranova.generation.biomes;
 
 import at.terranova.heightprovider.NoiseProvider;
 import org.bukkit.Material;
+import org.bukkit.TreeType;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class CustomBiomeHandler {
 
@@ -49,6 +48,11 @@ class VoidBiome implements CustomBiome {
         for (int i = (int) height; i > 0; i--) {
             chunkData.setBlock(x, i, z, Material.RED_TERRACOTTA);
         }
+    }
+
+    @Override
+    public List<TreeType> getTreeTypes() {
+        return new LinkedList<>();
     }
 
 }

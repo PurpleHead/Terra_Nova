@@ -5,6 +5,8 @@
 package at.terranova.generation.populators;
 
 import at.terranova.generation.CustomChunkGenerator;
+import at.terranova.generation.biomes.CustomBiome;
+import at.terranova.generation.biomes.CustomBiomeHandler;
 import at.terranova.heightprovider.NoiseProvider;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
@@ -12,6 +14,7 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.LimitedRegion;
 import org.bukkit.generator.WorldInfo;
 
+import java.util.List;
 import java.util.Random;
 
 public class TreePopulator extends BlockPopulator {
@@ -50,8 +53,13 @@ public class TreePopulator extends BlockPopulator {
 
     private TreeType getTreeType (Biome b, Random random) {
         TreeType type = null;
+        CustomBiome customBiome = CustomBiomeHandler.getInstance().getCustomBiome(b);
+        List<TreeType> treeTypes = customBiome.getTreeTypes();
 
-        switch(b) {
+        if(treeTypes != null && !treeTypes.isEmpty()) {
+            type = treeTypes.get(random.nextInt(treeTypes.size()));
+        }
+        /*switch(b) {
             case SAVANNA:
                 type = TreeType.ACACIA;
                 break;
@@ -62,7 +70,7 @@ public class TreePopulator extends BlockPopulator {
                 type = random.nextBoolean() ? TreeType.MEGA_REDWOOD : TreeType.REDWOOD;
             default:
                 break;
-        }
+        }*/
 
         return type;
     }

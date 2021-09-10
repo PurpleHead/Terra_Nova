@@ -6,9 +6,12 @@ package at.terranova.generation.biomes;
 
 import at.terranova.heightprovider.NoiseProvider;
 import org.bukkit.Material;
+import org.bukkit.TreeType;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class DesertBiome implements CustomBiome {
@@ -29,6 +32,11 @@ public class DesertBiome implements CustomBiome {
         }
 
         chunkData.setBlock(x, (int) height, z, Material.SAND);
+    }
+
+    @Override
+    public List<TreeType> getTreeTypes() {
+        return new LinkedList<>();
     }
 
 }
