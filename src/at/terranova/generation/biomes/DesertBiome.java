@@ -4,12 +4,15 @@
  */
 package at.terranova.generation.biomes;
 
+import at.terranova.generation.biomes.decoration.CustomDecoration;
+import at.terranova.generation.biomes.decoration.DesertDecoration;
 import at.terranova.heightprovider.NoiseProvider;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -37,6 +40,11 @@ public class DesertBiome implements CustomBiome {
     @Override
     public List<TreeType> getTreeTypes() {
         return new LinkedList<>();
+    }
+
+    @Override
+    public List<CustomDecoration> getDecorations() {
+        return Arrays.asList(new DesertDecoration()); //Arrays.asList(Material.CACTUS, Material.DEAD_BUSH);
     }
 
 }

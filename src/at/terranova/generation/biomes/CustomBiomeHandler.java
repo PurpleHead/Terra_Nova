@@ -4,6 +4,7 @@
  */
 package at.terranova.generation.biomes;
 
+import at.terranova.generation.biomes.decoration.CustomDecoration;
 import at.terranova.heightprovider.NoiseProvider;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
@@ -52,7 +53,12 @@ class VoidBiome implements CustomBiome {
 
     @Override
     public List<TreeType> getTreeTypes() {
-        return new LinkedList<>();
+        return null;
+    }
+
+    @Override
+    public List<CustomDecoration> getDecorations() {
+        return null;
     }
 
 }

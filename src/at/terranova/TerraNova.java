@@ -25,7 +25,7 @@ public class TerraNova extends JavaPlugin {
         handler.registerCustomBiome(Biome.SAVANNA, new SavannaBiome());
         handler.registerCustomBiome(Biome.OCEAN, new OceanBiome());
         handler.registerCustomBiome(Biome.FOREST, new ForestBiome());
-        handler.registerCustomBiome(Biome.TAIGA, new TaigaBiome());
+        handler.registerCustomBiome(Biome.SNOWY_TAIGA, new SnowyTaigaBiome());
     }
 
     @Override

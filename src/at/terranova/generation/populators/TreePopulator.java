@@ -25,6 +25,7 @@ public class TreePopulator extends BlockPopulator {
         this.provider = provider;
     }
 
+    // TODO Tree spawn probability
     @Override
     public void populate(WorldInfo worldInfo, Random random, int chunkX, int chunkZ, LimitedRegion limitedRegion) {
         boolean populate = random.nextBoolean();
@@ -59,18 +60,6 @@ public class TreePopulator extends BlockPopulator {
         if(treeTypes != null && !treeTypes.isEmpty()) {
             type = treeTypes.get(random.nextInt(treeTypes.size()));
         }
-        /*switch(b) {
-            case SAVANNA:
-                type = TreeType.ACACIA;
-                break;
-            case FOREST:
-                type = random.nextBoolean() ? TreeType.TREE : TreeType.BIG_TREE;
-                break;
-            case TAIGA:
-                type = random.nextBoolean() ? TreeType.MEGA_REDWOOD : TreeType.REDWOOD;
-            default:
-                break;
-        }*/
 
         return type;
     }

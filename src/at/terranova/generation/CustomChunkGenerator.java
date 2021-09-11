@@ -8,6 +8,7 @@ import at.terranova.Pair;
 import at.terranova.generation.biomes.CustomBiome;
 import at.terranova.generation.biomes.CustomBiomeHandler;
 import at.terranova.generation.populators.CustomBiomeProvider;
+import at.terranova.generation.populators.DecorationPopulator;
 import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
@@ -92,7 +93,8 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
     @Override
     public List<BlockPopulator> getDefaultPopulators(World world) {
-        return Arrays.asList(new TreePopulator(new SimplexNoiseProvider(getSeeds(world.getSeed()), OCTAVES, FREQ_AMP)));
+        NoiseProvider provider = new SimplexNoiseProvider(getSeeds(world.getSeed()), OCTAVES, FREQ_AMP);
+        return Arrays.asList(new TreePopulator(provider), new DecorationPopulator(provider));
     }
 
     @Override

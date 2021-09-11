@@ -4,6 +4,7 @@
  */
 package at.terranova.generation.biomes;
 
+import at.terranova.generation.biomes.decoration.CustomDecoration;
 import at.terranova.heightprovider.NoiseProvider;
 import org.bukkit.TreeType;
 import org.bukkit.generator.ChunkGenerator;
@@ -16,5 +17,6 @@ public interface CustomBiome {
 
     void generate(NoiseProvider provider, WorldInfo worldInfo, Random random, int x, int height, int z, ChunkGenerator.ChunkData chunkData);
     List<TreeType> getTreeTypes();
+    List<CustomDecoration> getDecorations();
 
 }

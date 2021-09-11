@@ -4,6 +4,8 @@
  */
 package at.terranova.generation.biomes;
 
+import at.terranova.generation.biomes.decoration.CustomDecoration;
+import at.terranova.generation.biomes.decoration.GrassDecoration;
 import at.terranova.heightprovider.NoiseProvider;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
@@ -31,5 +33,10 @@ public class SavannaBiome implements CustomBiome {
     @Override
     public List<TreeType> getTreeTypes() {
         return Arrays.asList(TreeType.ACACIA);
+    }
+
+    @Override
+    public List<CustomDecoration> getDecorations() {
+        return Arrays.asList(new GrassDecoration()); //Arrays.asList(Material.GRASS, Material.TALL_GRASS);
     }
 }

@@ -23,7 +23,7 @@ public class CustomBiomeProvider extends BiomeProvider {
 
     public CustomBiomeProvider (NoiseProvider provider) {
         this.provider = provider;
-        this.biomes.addAll(Arrays.asList(Biome.DESERT, Biome.SAVANNA, Biome.FOREST, Biome.TAIGA, Biome.SNOWY_TUNDRA));
+        this.biomes.addAll(Arrays.asList(Biome.DESERT, Biome.SAVANNA, Biome.FOREST, Biome.SNOWY_TAIGA, Biome.SNOWY_TUNDRA));
     }
 
     @Override
