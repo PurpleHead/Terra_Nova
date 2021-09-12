@@ -13,6 +13,7 @@ import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -55,28 +56,32 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
                 customBiome.generate(provider, worldInfo, random, x, y, z, chunkData);
 
-                if((y == SEA_MAX_LEVEL || isInOceanRadius(x, z, chunkX, chunkZ, provider)) && customBiome.shouldGenerateBeach()) {
+                if((y == SEA_MAX_LEVEL || isInOceanRadius(x, z, chunkX, chunkZ, provider, 5, 1)) && customBiome.shouldGenerateBeach()) {
                     chunkData.setBlock(x, y, z, Material.SAND);
                 }
             }
         }
     }
 
-    private boolean isInOceanRadius (int x, int z, int chunkX, int chunkZ, NoiseProvider provider) {
-        final int RADIUS = 5;
-        boolean found = false;
-
+    public static boolean isInOceanRadius (int x, int z, int chunkX, int chunkZ, NoiseProvider provider, int radius, int steps) {
         x = chunkX * CHUNK_SIZE + x;
         z = chunkZ * CHUNK_SIZE + z;
 
-        for (int i = -RADIUS; i < RADIUS && !found; i++) {
-            for (int t = -RADIUS; t < RADIUS && !found; t++) {
+        return isInOceanRadius(x, z, provider, radius, steps);
+    }
+
+    public static boolean isInOceanRadius (int x, int z, NoiseProvider provider, int radius, int steps) {
+        if(steps > radius) {
+            throw new IllegalArgumentException("Steps must be smaller than the radius");
+        }
+        boolean found = false;
+        for (int i = -radius; i <= radius && !found; i += steps) {
+            for (int t = -radius; t <= radius && !found; t += steps) {
                 if (provider.getHeight(x + i, z + t) <= SEA_MAX_LEVEL) {
                     found = true;
                 }
             }
         }
-
         return found;
     }
 

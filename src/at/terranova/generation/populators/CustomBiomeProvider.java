@@ -28,6 +28,15 @@ public class CustomBiomeProvider extends BiomeProvider {
 
     @Override
     public Biome getBiome(WorldInfo worldInfo, int x, int y, int z) {
+        int index = Math.abs(z) >= BIOME_HEIGHT ? 5 : Math.abs(z / 200);
+        if (!CustomChunkGenerator.isInOceanRadius(x, z, provider, 50, 50)) {
+            return Biome.DESERT;
+        }
+        return Biome.FOREST;
+    }
+
+    /*@Override
+    public Biome getBiome(WorldInfo worldInfo, int x, int y, int z) {
         int divider = BIOME_HEIGHT / this.biomes.size();
 
         if ((provider.getHeight(x, z) < CustomChunkGenerator.SEA_MAX_LEVEL) || y < CustomChunkGenerator.SEA_MAX_LEVEL) {
@@ -35,7 +44,7 @@ public class CustomBiomeProvider extends BiomeProvider {
         }
         int index = Math.abs(z) >= BIOME_HEIGHT ? biomes.size() - 1 : Math.abs(z / divider);
         return biomes.get(index);
-    }
+    }*/
 
     @Override
     public List<Biome> getBiomes(WorldInfo worldInfo) {

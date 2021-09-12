@@ -8,13 +8,17 @@ import at.terranova.Pair;
 import at.terranova.generation.CustomChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class SimplexNoiseProvider implements NoiseProvider {
 
     private List<SimplexOctaveGenerator> generators = new LinkedList<>();
     private List<Pair<Double, Double>> freqAmp;
+
+    private Map<Pair<Integer, Integer>, Double> cachedHeights = new HashMap<>();
 
     private final int SEED_AMOUNT;
 
@@ -31,15 +35,29 @@ public class SimplexNoiseProvider implements NoiseProvider {
     @Override
     public double getHeight(int x, int z, int chunkX, int chunkZ) {
         double noise = 0;
-        for (Pair<Double, Double> p : this.freqAmp) {
-            double frequency = p.getA();
-            double amplitude = p.getB();
+        x = chunkX* CustomChunkGenerator.CHUNK_SIZE +x;
+        z = chunkZ*CustomChunkGenerator.CHUNK_SIZE+z;
 
-            for(SimplexOctaveGenerator g : generators) {
-                noise += g.noise(chunkX* CustomChunkGenerator.CHUNK_SIZE +x, chunkZ*CustomChunkGenerator.CHUNK_SIZE+z, frequency, amplitude) * 15;
-            }
+        if(cachedHeights.size() > 2000000) {
+            cachedHeights.clear();
         }
-        return Math.abs(noise * 0.15) + 40;
+
+        if(!cachedHeights.containsKey(new Pair<>(x, z))) {
+            for (Pair<Double, Double> p : this.freqAmp) {
+                double frequency = p.getA();
+                double amplitude = p.getB();
+
+                for(SimplexOctaveGenerator g : generators) {
+                    noise += g.noise(x, z, frequency, amplitude) * 15;
+                }
+            }
+            noise = Math.abs(noise * 0.15) + 40;
+            cachedHeights.put(new Pair<>(x, z), noise);
+        } else {
+            noise = cachedHeights.get(new Pair<>(x, z));
+        }
+
+        return noise;
     }
 
     @Override
