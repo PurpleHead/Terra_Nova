@@ -5,34 +5,34 @@
 package at.terranova.generation.biomes.decoration;
 
 import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Snowable;
 import org.bukkit.generator.LimitedRegion;
 import org.bukkit.generator.WorldInfo;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class DesertDecoration extends CustomDecoration {
+public class SnowDecoration extends CustomDecoration {
+
     @Override
     public List<Material> getMaterials() {
-        return Arrays.asList(Material.DEAD_BUSH, Material.CACTUS);
+        return null;
     }
 
     @Override
     public float getProbability() {
-        return 0.2f;
+        return 1;
     }
 
     @Override
     public void generate(WorldInfo worldInfo, Random random, int x, int y, int z, LimitedRegion limitedRegion) {
-        Material m = getMaterials().get(random.nextInt(getMaterials().size()));
-
-        if(m == Material.CACTUS && random.nextBoolean()) {
-            limitedRegion.setType(x, y, z, m);
-            limitedRegion.setType(x, y + 1, z, m);
-        } else {
-            limitedRegion.setType(x, y, z, m);
+        BlockData data = limitedRegion.getBlockData(x, y-1, z);
+        if(data instanceof Snowable) {
+            ((Snowable) data).setSnowy(true);
+            limitedRegion.setBlockData(x, y-1, z, data);
         }
+        limitedRegion.setType(x, y, z, Material.SNOW);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class DesertDecoration extends CustomDecoration {
 
     @Override
     public int getAmount(Random random) {
-        return 2 + random.nextInt(4);
+        return 48 * 48;
     }
 
 }

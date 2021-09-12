@@ -6,6 +6,7 @@ package at.terranova.generation.biomes;
 
 import at.terranova.generation.biomes.decoration.CustomDecoration;
 import at.terranova.generation.biomes.decoration.GrassDecoration;
+import at.terranova.generation.biomes.decoration.SnowDecoration;
 import at.terranova.heightprovider.NoiseProvider;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
@@ -38,7 +39,7 @@ public class SnowyTaigaBiome implements CustomBiome {
 
     @Override
     public List<CustomDecoration> getDecorations() {
-        return Arrays.asList(new GrassDecoration()); // Arrays.asList(Material.GRASS, Material.TALL_GRASS);
+        return Arrays.asList(new SnowDecoration(), new GrassDecoration());
     }
 
 }

@@ -28,7 +28,8 @@ public class DecorationPopulator extends BlockPopulator {
 
     @Override
     public void populate(WorldInfo worldInfo, Random random, int chunkX, int chunkZ, LimitedRegion limitedRegion) {
-        int amount = 2 + random.nextInt(10);
+        int amount = 2 + random.nextInt(8);
+        boolean firstIteration = true;
 
         for(int i = 0; i < amount; i++) {
             int x = random.nextInt(CustomChunkGenerator.CHUNK_SIZE) + (chunkX * CustomChunkGenerator.CHUNK_SIZE);
@@ -42,20 +43,22 @@ public class DecorationPopulator extends BlockPopulator {
 
                 if(decorations != null && !decorations.isEmpty()) {
                     for (CustomDecoration d : decorations) {
+                        if(firstIteration && d.useCustomAmount()) {
+                            amount = d.getAmount(random);
+                        }
                         int n = random.nextInt(100);
-                        if(n < (d.getProbability() * 100) - 1) {
+                        if(n <= (d.getProbability() * 100) - 1 && limitedRegion.getType(x, y + 1, z) == Material.AIR) {
                             if (d.useCustomGenerateMethod()) {
                                 d.generate(worldInfo, random, x, y + 1, z, limitedRegion);
                             } else {
                                 Material m = d.getMaterials().get(random.nextInt(d.getMaterials().size()));
                                 limitedRegion.setType(x, y + 1, z, m);
                             }
-                            break;
                         }
                     }
                 }
             }
-
+            firstIteration = false;
         }
     }
 }

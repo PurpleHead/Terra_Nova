@@ -49,4 +49,14 @@ public class GrassDecoration extends CustomDecoration {
         return true;
     }
 
+    @Override
+    public boolean useCustomAmount() {
+        return false;
+    }
+
+    @Override
+    public int getAmount(Random random) {
+        return 0;
+    }
+
 }

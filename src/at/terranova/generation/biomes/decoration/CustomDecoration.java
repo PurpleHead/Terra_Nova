@@ -17,5 +17,7 @@ public abstract class CustomDecoration {
     public abstract float getProbability();
     public abstract void generate (WorldInfo worldInfo, Random random, int x, int y, int z, LimitedRegion limitedRegion);
     public abstract boolean useCustomGenerateMethod();
+    public abstract boolean useCustomAmount();
+    public abstract int getAmount(Random random);
 
 }
