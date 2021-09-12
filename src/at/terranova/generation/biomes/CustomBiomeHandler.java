@@ -61,4 +61,9 @@ class VoidBiome implements CustomBiome {
         return null;
     }
 
+    @Override
+    public boolean shouldGenerateBeach() {
+        return false;
+    }
+
 }

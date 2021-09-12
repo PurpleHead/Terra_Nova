@@ -40,4 +40,9 @@ public class ForestBiome implements CustomBiome {
     public List<CustomDecoration> getDecorations() {
         return Arrays.asList(new GrassDecoration()); // Arrays.asList(Material.GRASS, Material.TALL_GRASS);
     }
+
+    @Override
+    public boolean shouldGenerateBeach() {
+        return true;
+    }
 }

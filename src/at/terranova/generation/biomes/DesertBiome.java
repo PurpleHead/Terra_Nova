@@ -47,4 +47,9 @@ public class DesertBiome implements CustomBiome {
         return Arrays.asList(new DesertDecoration()); //Arrays.asList(Material.CACTUS, Material.DEAD_BUSH);
     }
 
+    @Override
+    public boolean shouldGenerateBeach() {
+        return false;
+    }
+
 }

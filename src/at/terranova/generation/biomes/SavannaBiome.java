@@ -37,6 +37,11 @@ public class SavannaBiome implements CustomBiome {
 
     @Override
     public List<CustomDecoration> getDecorations() {
-        return Arrays.asList(new GrassDecoration()); //Arrays.asList(Material.GRASS, Material.TALL_GRASS);
+        return Arrays.asList(new GrassDecoration());
+    }
+
+    @Override
+    public boolean shouldGenerateBeach() {
+        return true;
     }
 }

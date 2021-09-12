@@ -7,12 +7,12 @@ package at.terranova.generation.biomes;
 import at.terranova.generation.CustomChunkGenerator;
 import at.terranova.generation.biomes.decoration.CustomDecoration;
 import at.terranova.heightprovider.NoiseProvider;
+
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -31,10 +31,7 @@ public class OceanBiome implements CustomBiome {
                 chunkData.setBlock(x, i, z, Material.STONE);
             }
         }
-        for (;height < CustomChunkGenerator.SEA_MIN_LEVEL; height++) {
-            chunkData.setBlock(x, height, z, Material.SAND);
-        }
-        for (int i = height; i <= CustomChunkGenerator.SEA_MAX_LEVEL + 1; i++) {
+        for (int i = height; i <= CustomChunkGenerator.SEA_MAX_LEVEL; i++) {
             chunkData.setBlock(x, i, z, Material.WATER);
         }
     }
@@ -47,6 +44,11 @@ public class OceanBiome implements CustomBiome {
     @Override
     public List<CustomDecoration> getDecorations() {
         return null;
+    }
+
+    @Override
+    public boolean shouldGenerateBeach() {
+        return true;
     }
 
 }

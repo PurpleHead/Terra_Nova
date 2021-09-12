@@ -18,5 +18,6 @@ public interface CustomBiome {
     void generate(NoiseProvider provider, WorldInfo worldInfo, Random random, int x, int height, int z, ChunkGenerator.ChunkData chunkData);
     List<TreeType> getTreeTypes();
     List<CustomDecoration> getDecorations();
+    boolean shouldGenerateBeach();
 
 }

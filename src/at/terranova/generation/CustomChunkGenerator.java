@@ -13,6 +13,7 @@ import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.BiomeProvider;
@@ -45,34 +46,38 @@ public class CustomChunkGenerator extends ChunkGenerator {
         NoiseProvider provider = new SimplexNoiseProvider(getSeeds(worldInfo.getSeed()), OCTAVES, FREQ_AMP);
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int z = 0; z < CHUNK_SIZE; z++) {
-                int height = (int) provider.getHeight(x, z, chunkX, chunkZ);
-                CustomBiome customBiome = customBiomeHandler.getCustomBiome(chunkData.getBiome(x, height, z));
+                int y = (int) provider.getHeight(x, z, chunkX, chunkZ);
+                CustomBiome customBiome = customBiomeHandler.getCustomBiome(chunkData.getBiome(x, y, z));
 
-                if(height < SEA_MAX_LEVEL) {
+                if(y < SEA_MAX_LEVEL) {
                     customBiome = customBiomeHandler.getCustomBiome(Biome.OCEAN);
                 }
 
-                customBiome.generate(provider, worldInfo, random, x, height, z, chunkData);
+                customBiome.generate(provider, worldInfo, random, x, y, z, chunkData);
 
-                /*// Generate solid floor
-                int dirtDepth = 2 + random.nextInt(10);
-                for(int i = (int) height - 1; i > height - dirtDepth; i--) {
-                    chunkData.setBlock(x, i, z, Material.DIRT);
+                if((y == SEA_MAX_LEVEL || isInOceanRadius(x, z, chunkX, chunkZ, provider)) && customBiome.shouldGenerateBeach()) {
+                    chunkData.setBlock(x, y, z, Material.SAND);
                 }
-                for (int i = (int) height - dirtDepth; i > 0; i--) {
-                    chunkData.setBlock(x, i, z, Material.STONE);
-                }
-                // TODO generate sand next to ocean
-                if (height < SEA_MAX_LEVEL) {
-                    for (int i = (int) height; i > (int) height - 2; i--) {
-                        chunkData.setBlock(x, i, z, Material.SAND);
-                    }
-                } else {
-                    chunkData.setBlock(x, (int) height, z, Material.GRASS_BLOCK);
-                }*/
-
             }
         }
+    }
+
+    private boolean isInOceanRadius (int x, int z, int chunkX, int chunkZ, NoiseProvider provider) {
+        final int RADIUS = 5;
+        boolean found = false;
+
+        x = chunkX * CHUNK_SIZE + x;
+        z = chunkZ * CHUNK_SIZE + z;
+
+        for (int i = -RADIUS; i < RADIUS && !found; i++) {
+            for (int t = -RADIUS; t < RADIUS && !found; t++) {
+                if (provider.getHeight(x + i, z + t) <= SEA_MAX_LEVEL) {
+                    found = true;
+                }
+            }
+        }
+
+        return found;
     }
 
     private long[] getSeeds (long seed) {
