@@ -7,6 +7,6 @@ Terra_Nova gives your Minecraft world a different look, each biome is or will ge
 
 ## Progress
 - [x] Change world shape
-- [] Overhaul biomes
-- [] Distribute biomes according to geographic location
-- [] Add new structures
+- [ ] Overhaul biomes
+- [ ] Distribute biomes according to geographic location
+- [ ] Add new structures
