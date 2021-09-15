@@ -16,7 +16,7 @@ Terra_Nova gives your Minecraft world a different look, each biome is or will ge
 Please note that this plugin is a work-in-progress!
 The actual generated world may look different than on the screenshots provided.
 
-![Alt text](/screenshots/2021-09-10_15.05.30.png?raw=true "Screenshot 1")
+![Alt text](../screenshots/screenshots/2021-09-10_15.05.30.png?raw=true "Screenshot 1")
 ![Alt text](/screenshots/2021-09-10_15.04.01.png?raw=true "Screenshot 2")
 ![Alt text](/screenshots/2021-09-11_13.12.28.png?raw=true "Screenshot 3")
 ![Alt text](/screenshots/2021-09-11_13.13.30.png?raw=true "Screenshot 4")
