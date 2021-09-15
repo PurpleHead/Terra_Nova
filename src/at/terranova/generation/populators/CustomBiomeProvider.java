@@ -6,6 +6,7 @@ package at.terranova.generation.populators;
 
 import at.terranova.generation.CustomChunkGenerator;
 import at.terranova.heightprovider.NoiseProvider;
+
 import org.bukkit.block.Biome;
 import org.bukkit.generator.BiomeProvider;
 import org.bukkit.generator.WorldInfo;
@@ -29,7 +30,7 @@ public class CustomBiomeProvider extends BiomeProvider {
     @Override
     public Biome getBiome(WorldInfo worldInfo, int x, int y, int z) {
         int index = Math.abs(z) >= BIOME_HEIGHT ? 5 : Math.abs(z / 200);
-        if (!CustomChunkGenerator.isInOceanRadius(x, z, provider, 50, 50)) {
+        if (!CustomChunkGenerator.isInOceanRadius(x, z, provider, 50, 25, 8)) {
             return Biome.DESERT;
         }
         return Biome.FOREST;

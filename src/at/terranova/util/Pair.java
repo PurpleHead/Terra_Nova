@@ -2,7 +2,7 @@
  * author: [USER_NOT_FOUND]
  * https://github.com/PurpleHead
  */
-package at.terranova;
+package at.terranova.util;
 
 public class Pair<A, B> {
     private A a;

@@ -4,7 +4,7 @@
  */
 package at.terranova.heightprovider;
 
-import at.terranova.Pair;
+import at.terranova.util.Pair;
 import at.terranova.generation.CustomChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 

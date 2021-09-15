@@ -4,7 +4,7 @@
  */
 package at.terranova.generation;
 
-import at.terranova.Pair;
+import at.terranova.util.Pair;
 import at.terranova.generation.biomes.CustomBiome;
 import at.terranova.generation.biomes.CustomBiomeHandler;
 import at.terranova.generation.populators.CustomBiomeProvider;
@@ -13,6 +13,7 @@ import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
 
+import at.terranova.util.Vector2D;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -82,6 +83,27 @@ public class CustomChunkGenerator extends ChunkGenerator {
                 }
             }
         }
+        return found;
+    }
+
+    // Scan via rays
+    public static boolean isInOceanRadius (int x, int z, NoiseProvider provider, int radius, int steps, int rays) {
+        boolean found = false;
+
+        for (double angle = 0; angle <= Math.PI * 2 && !found; angle += (Math.PI * 2) / rays) {
+            Vector2D vec = Vector2D.ofAngle(angle, steps);
+            int xCopy = x;
+            int zCopy = z;
+            for (int e = 0; e < radius && !found; e += steps) {
+                xCopy += vec.getX();
+                zCopy += vec.getZ();
+
+                if(provider.getHeight(xCopy, zCopy) <= SEA_MAX_LEVEL) {
+                    found = true;
+                }
+            }
+        }
+
         return found;
     }
 
