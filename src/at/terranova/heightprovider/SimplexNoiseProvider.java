@@ -6,6 +6,7 @@ package at.terranova.heightprovider;
 
 import at.terranova.util.Pair;
 import at.terranova.generation.CustomChunkGenerator;
+import org.bukkit.Bukkit;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import java.util.HashMap;
@@ -52,6 +53,7 @@ public class SimplexNoiseProvider implements NoiseProvider {
                 }
             }
             noise = Math.abs(noise * 0.15) + 40;
+
             cachedHeights.put(new Pair<>(x, z), noise);
         } else {
             noise = cachedHeights.get(new Pair<>(x, z));

@@ -13,9 +13,6 @@ import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
 
-import at.terranova.util.Vector2D;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.BiomeProvider;
@@ -56,58 +53,11 @@ public class CustomChunkGenerator extends ChunkGenerator {
                 }
 
                 customBiome.generate(provider, worldInfo, random, x, y, z, chunkData);
-
-                if((y == SEA_MAX_LEVEL || isInOceanRadius(x, z, chunkX, chunkZ, provider, 5, 1)) && customBiome.shouldGenerateBeach()) {
-                    chunkData.setBlock(x, y, z, Material.SAND);
-                }
             }
         }
     }
 
-    public static boolean isInOceanRadius (int x, int z, int chunkX, int chunkZ, NoiseProvider provider, int radius, int steps) {
-        x = chunkX * CHUNK_SIZE + x;
-        z = chunkZ * CHUNK_SIZE + z;
-
-        return isInOceanRadius(x, z, provider, radius, steps);
-    }
-
-    public static boolean isInOceanRadius (int x, int z, NoiseProvider provider, int radius, int steps) {
-        if(steps > radius) {
-            throw new IllegalArgumentException("Steps must be smaller than the radius");
-        }
-        boolean found = false;
-        for (int i = -radius; i <= radius && !found; i += steps) {
-            for (int t = -radius; t <= radius && !found; t += steps) {
-                if (provider.getHeight(x + i, z + t) <= SEA_MAX_LEVEL) {
-                    found = true;
-                }
-            }
-        }
-        return found;
-    }
-
-    // Scan via rays
-    public static boolean isInOceanRadius (int x, int z, NoiseProvider provider, int radius, int steps, int rays) {
-        boolean found = false;
-
-        for (double angle = 0; angle <= Math.PI * 2 && !found; angle += (Math.PI * 2) / rays) {
-            Vector2D vec = Vector2D.ofAngle(angle, steps);
-            int xCopy = x;
-            int zCopy = z;
-            for (int e = 0; e < radius && !found; e += steps) {
-                xCopy += vec.getX();
-                zCopy += vec.getZ();
-
-                if(provider.getHeight(xCopy, zCopy) <= SEA_MAX_LEVEL) {
-                    found = true;
-                }
-            }
-        }
-
-        return found;
-    }
-
-    private long[] getSeeds (long seed) {
+    public static long[] getSeeds (long seed) {
         long[] seeds = new long[SEED_AMOUNT];
         for (int i = 0; i < SEED_AMOUNT; i++) {
             if (i == 0)
@@ -120,7 +70,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
     @Override
     public BiomeProvider getDefaultBiomeProvider(WorldInfo worldInfo) {
-        return new CustomBiomeProvider(new SimplexNoiseProvider(getSeeds(worldInfo.getSeed()), OCTAVES, FREQ_AMP));
+        return new CustomBiomeProvider(OCTAVES, FREQ_AMP);
     }
 
     @Override
