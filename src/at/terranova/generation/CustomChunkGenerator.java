@@ -13,6 +13,7 @@ import at.terranova.generation.populators.TreePopulator;
 import at.terranova.heightprovider.NoiseProvider;
 import at.terranova.heightprovider.SimplexNoiseProvider;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.BiomeProvider;
@@ -53,8 +54,30 @@ public class CustomChunkGenerator extends ChunkGenerator {
                 }
 
                 customBiome.generate(provider, worldInfo, random, x, y, z, chunkData);
+
+                if((y == SEA_MAX_LEVEL || isInOceanRadius(x, z, chunkX, chunkZ, provider)) && customBiome.shouldGenerateBeach()) {
+                    chunkData.setBlock(x, y, z, Material.SAND);
+                }
             }
         }
+    }
+
+    public static boolean isInOceanRadius (int x, int z, int chunkX, int chunkZ, NoiseProvider provider) {
+        final int RADIUS = 5;
+        boolean found = false;
+
+        x = chunkX * CHUNK_SIZE + x;
+        z = chunkZ * CHUNK_SIZE + z;
+
+        for (int i = -RADIUS; i < RADIUS && !found; i++) {
+            for (int t = -RADIUS; t < RADIUS && !found; t++) {
+                if (provider.getHeight(x + i, z + t) <= SEA_MAX_LEVEL) {
+                    found = true;
+                }
+            }
+        }
+
+        return found;
     }
 
     public static long[] getSeeds (long seed) {
@@ -70,7 +93,7 @@ public class CustomChunkGenerator extends ChunkGenerator {
 
     @Override
     public BiomeProvider getDefaultBiomeProvider(WorldInfo worldInfo) {
-        return new CustomBiomeProvider(OCTAVES, FREQ_AMP);
+        return new CustomBiomeProvider(OCTAVES, new SimplexNoiseProvider(getSeeds(worldInfo.getSeed()), OCTAVES, FREQ_AMP), FREQ_AMP);
     }
 
     @Override
